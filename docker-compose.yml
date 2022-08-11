@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+    db:
+        image: mysql:8.0.23
+        platform: linux/x86_64
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - ".docker/db_app:/var/lib/mysql"
+        env_file:
+          - ./.docker/.env
+        ports:
+            - 3306:3306
+        networks:
+            - symfony
+    php:
+        build:
+            context: ./.docker/php
+            args:
+                TIMEZONE: ${TIMEZONE}
+        volumes:
+            - .:/var/www/symfony/
+        networks:
+            - symfony
+    nginx:
+        build:
+            context: ./.docker/nginx
+        volumes:
+            - .:/var/www/symfony/
+        ports:
+            - 8099:80
+        networks:
+            - symfony
+        env_file:
+            - ./.docker/.env.nginx.local
+
+volumes:
+    symfony_dockerized_app_sync:
+    db_app:
+
+networks:
+    symfony:
