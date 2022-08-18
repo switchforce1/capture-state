@@ -7,6 +7,9 @@ use App\Entity\Snapshot;
 use App\Entity\Source;
 use App\Entity\SourceGroup;
 use App\Entity\Tag;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -18,8 +21,6 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        phpinfo();
-        die();
         return $this->render('admin/dashboard/index.html.twig', [
             'dashboard_controller_filepath' => (new \ReflectionClass(static::class))->getFileName(),
         ]);
@@ -35,12 +36,20 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('MDM - Snapshot data', 'fa fa-dashboard');
         yield MenuItem::section('Captures');
-        yield MenuItem::linkToCrud('SourceGroups', 'fas fa-list', SourceGroup::class)->setAction('index');
-        yield MenuItem::linkToCrud('Sources', 'fas fa-list', Source::class);
-        yield MenuItem::linkToCrud('Comparisons', 'fas fa-list', Comparison::class);
-        yield MenuItem::linkToCrud('Snapshot', 'fa fa-list', Snapshot::class);
+        yield MenuItem::linkToCrud('SourceGroups', 'fa fa-archive', SourceGroup::class)->setAction('index');
+        yield MenuItem::linkToCrud('Sources', 'fa fa-dot-circle', Source::class);
+        yield MenuItem::linkToCrud('Snapshot', 'fa fa-camera', Snapshot::class);
+        yield MenuItem::linkToCrud('Comparisons', 'fa fa-binoculars', Comparison::class);
 
         yield MenuItem::section('Tags');
         yield MenuItem::linkToCrud('Tags', 'fas fa-tag', Tag::class);
     }
+
+    public function configureActions(): Actions
+    {
+        return parent::configureActions()
+            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+    }
+
+
 }

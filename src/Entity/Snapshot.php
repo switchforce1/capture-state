@@ -29,12 +29,18 @@ class Snapshot
     #[ORM\Column(type: 'text')]
     private $rawData;
 
+    #[ORM\ManyToOne(targetEntity: Source::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $source;
+
     /**
      * Snapshot constructor.
      */
     public function __construct()
     {
         $this->uuid = Uuid::v4()->toRfc4122();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
 
@@ -90,4 +96,23 @@ class Snapshot
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->uuid.'->'.$this->updatedAt->format('Y-m-d H:i:s');
+    }
+
+    public function getSource(): ?Source
+    {
+        return $this->source;
+    }
+
+    public function setSource(?Source $source): self
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
+
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -13,14 +14,14 @@ class Comparison
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $reason;
+
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $updatedAt;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $reason;
 
     #[ORM\ManyToOne(targetEntity: Source::class, inversedBy: 'comparisons')]
     #[ORM\JoinColumn(nullable: false)]

@@ -10,6 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SourceRepository::class)]
 class Source
 {
+    private const METHOD_GET = 'GET';
+    private const METHOD_POST = 'GET';
+    private const METHOD_PUT = 'GET';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -21,6 +25,9 @@ class Source
     #[ORM\Column(type: 'string', length: 255)]
     private $typeCode;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $url;
+
     #[ORM\OneToMany(mappedBy: 'source', targetEntity: Comparison::class, orphanRemoval: true)]
     private $comparisons;
 
@@ -30,6 +37,9 @@ class Source
     #[ORM\ManyToOne(targetEntity: SourceGroup::class, inversedBy: 'sources')]
     #[ORM\JoinColumn(nullable: false)]
     private $sourceGroup;
+
+    #[ORM\Column(type: 'string', length: 10, nullable: true)]
+    private $method = self::METHOD_GET;
 
     public function __construct()
     {
@@ -63,6 +73,17 @@ class Source
     {
         $this->typeCode = $typeCode;
 
+        return $this;
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
         return $this;
     }
 
@@ -128,6 +149,23 @@ class Source
     public function setSourceGroup(?SourceGroup $sourceGroup): self
     {
         $this->sourceGroup = $sourceGroup;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getLabel();
+    }
+
+    public function getMethod(): ?string
+    {
+        return $this->method;
+    }
+
+    public function setMethod(string $method): self
+    {
+        $this->method = $method;
 
         return $this;
     }

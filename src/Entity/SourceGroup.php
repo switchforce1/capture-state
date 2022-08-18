@@ -33,6 +33,8 @@ class SourceGroup
     public function __construct()
     {
         $this->sources = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -116,5 +118,10 @@ class SourceGroup
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

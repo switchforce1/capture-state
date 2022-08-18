@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DoctrineMigrations;
+namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220818150615 extends AbstractMigration
+final class Version20220818154927 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -34,7 +34,7 @@ final class Version20220818150615 extends AbstractMigration
         $this->addSql('CREATE TABLE snapshot (id INT NOT NULL, uuid VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, data JSON DEFAULT NULL, raw_data TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN snapshot.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN snapshot.updated_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE source (id INT NOT NULL, source_group_id INT NOT NULL, label VARCHAR(255) NOT NULL, type_code VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE source (id INT NOT NULL, source_group_id INT NOT NULL, label VARCHAR(255) NOT NULL, type_code VARCHAR(255) NOT NULL, url VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_5F8A7F73BD74EF95 ON source (source_group_id)');
         $this->addSql('CREATE TABLE source_tag (source_id INT NOT NULL, tag_id INT NOT NULL, PRIMARY KEY(source_id, tag_id))');
         $this->addSql('CREATE INDEX IDX_527DB2C2953C1C61 ON source_tag (source_id)');
