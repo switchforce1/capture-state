@@ -5,6 +5,9 @@ server {
 
     location / {
         try_files $uri /index.php$is_args$args;
+        proxy_buffer_size          128k;
+        proxy_buffers              4 256k;
+        proxy_busy_buffers_size    256k;
     }
 
     location ~ ^/index\.php(/|$) {
@@ -27,6 +30,8 @@ server {
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
         internal;
     }
     location ~ \.php$ {
