@@ -35,6 +35,19 @@ class Comparison
     #[ORM\JoinColumn(nullable: false)]
     private $snapshot2;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $mainData;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $revertData;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,6 +121,30 @@ class Comparison
     public function setSnapshot2(?Snapshot $snapshot2): self
     {
         $this->snapshot2 = $snapshot2;
+
+        return $this;
+    }
+
+    public function getMainData(): ?string
+    {
+        return $this->mainData;
+    }
+
+    public function setMainData(?string $mainData): self
+    {
+        $this->mainData = $mainData;
+
+        return $this;
+    }
+
+    public function getRevertData(): ?string
+    {
+        return $this->revertData;
+    }
+
+    public function setRevertData(?string $revertData): self
+    {
+        $this->revertData = $revertData;
 
         return $this;
     }

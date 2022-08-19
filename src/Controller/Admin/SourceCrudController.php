@@ -25,7 +25,6 @@ class SourceCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-
         yield TextField::new('label');
         yield TextField::new('typeCode')->setValue('JSON_URL');
         yield TextField::new('method');
@@ -55,9 +54,15 @@ class SourceCrudController extends AbstractCrudController
         $snapshot = $snapshotHelper->buildSnapshot($source);
 
 
-        $this->persistEntity($this->get('doctrine')->getManagerForClass($adminContext->getEntity()->getFqcn()), $snapshot);
+        $this->persistEntity($this->container->get('doctrine')->getManagerForClass($adminContext->getEntity()->getFqcn()), $snapshot);
         $this->addFlash('success', 'Snapshot created');
 
-        return $this->redirect($this->get(AdminUrlGenerator::class)->build()->setAction(Action::INDEX)->generateUrl());
+        $url = $this->container->get(AdminUrlGenerator::class)
+            ->setController(SnapshotCrudController::class)
+            ->setAction(Action::DETAIL)
+            ->setEntityId($snapshot->getId())
+            ->generateUrl();
+
+        return $this->redirect($url);
     }
 }

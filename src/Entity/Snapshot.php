@@ -31,7 +31,7 @@ class Snapshot
 
     #[ORM\ManyToOne(targetEntity: Source::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $source;
+    private ?Source $source;
 
     /**
      * Snapshot constructor.
@@ -43,10 +43,14 @@ class Snapshot
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -99,7 +103,12 @@ class Snapshot
 
     public function __toString(): string
     {
-        return $this->uuid.'->'.$this->updatedAt->format('Y-m-d H:i:s');
+        return sprintf(
+            '%s => %s -> %s',
+            $this->source->__toString(),
+            $this->uuid,
+            $this->updatedAt->format('Y-m-d H:i:s')
+        );
     }
 
     public function getSource(): ?Source
