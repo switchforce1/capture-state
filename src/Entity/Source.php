@@ -13,6 +13,7 @@ class Source
     private const METHOD_GET = 'GET';
     private const METHOD_POST = 'GET';
     private const METHOD_PUT = 'GET';
+    private const TYPE_JSON_URL = 'JSON_URL';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -44,6 +45,7 @@ class Source
     public function __construct()
     {
         $this->comparisons = new ArrayCollection();
+        $this->typeCode = self::TYPE_JSON_URL;
         $this->tags = new ArrayCollection();
     }
 
