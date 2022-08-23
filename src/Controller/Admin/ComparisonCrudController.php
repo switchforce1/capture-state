@@ -44,7 +44,9 @@ class ComparisonCrudController extends AbstractCrudController
                 DateTimeField::new('createdAt'),
                 DateTimeField::new('updatedAt'),
                 TextareaField::new('mainData')
-                    ->addCssClass('compare-main-data')
+                    ->addCssClass('compare-main-data'),
+                TextareaField::new('revertData')
+                    ->addCssClass('compare-revert-data')
             ];
         }
         return [

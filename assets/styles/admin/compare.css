@@ -1,3 +1,9 @@
 .compare-main-data dd{
-    background-color: #a8a29e;
+    background-color: #bebebe;
+    color: #0e4e36;
+}
+
+.compare-revert-data dd{
+    background-color: #cccccc;
+    color: #0e4e36;
 }
