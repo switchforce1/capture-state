@@ -10,8 +10,6 @@ services:
       - "5499:5432"
     volumes:
       - db-data:/var/lib/postgresql/data/db-data
-    networks:
-      - symfony
   php:
     build:
       context: ./.docker/php
@@ -19,8 +17,6 @@ services:
         TIMEZONE: ${TIMEZONE}
     volumes:
       - .:/var/www/symfony/
-    networks:
-      - symfony
   nginx:
     build:
       context: ./.docker/nginx
@@ -28,14 +24,9 @@ services:
       - .:/var/www/symfony/
     ports:
       - 8099:80
-    networks:
-      - symfony
     env_file:
       - ./.docker/.env.nginx.local
 volumes:
   symfony_dockerized_app_sync:
   db_app:
   db-data:
-
-networks:
-  symfony:

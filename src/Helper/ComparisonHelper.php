@@ -7,6 +7,7 @@ use App\Entity\Comparison;
 
 class ComparisonHelper
 {
+    private const MAX_COMPARE_LEVEL = 11;
     public function refreshComparisonData(Comparison $comparison): Comparison
     {
         if (empty($comparison->getSnapshot1()) || empty($comparison->getSnapshot2())) {
@@ -15,16 +16,44 @@ class ComparisonHelper
 
         $snapshot1Data = $comparison->getSnapshot1()->getData();
         $snapshot2Data = $comparison->getSnapshot2()->getData();
-        $result1 = array_diff(array_map('serialize', $snapshot2Data), array_map('serialize', $snapshot1Data));
-        $multidimensionalResult1 = array_map('unserialize', $result1);
 
-        $result2 = array_diff(array_map('serialize', $snapshot1Data), array_map('serialize', $snapshot2Data));
-        $multidimensionalResult2 = array_map('unserialize', $result2);
-
-
-        $comparison->setMainData(json_encode($multidimensionalResult1));
-        $comparison->setRevertData(json_encode($multidimensionalResult2));
+        $comparison->setMainData(json_encode($this->compareArrays($snapshot1Data, $snapshot2Data)));
+        $comparison->setRevertData(json_encode($this->compareArrays($snapshot2Data, $snapshot1Data)));
 
         return $comparison;
+    }
+
+    private function compareArrays(array $firstArray, array $secondArray, bool $reverseKey = false, int $level = 1): array
+    {
+        if ($level > self::MAX_COMPARE_LEVEL) {
+            return [];
+        }
+        $oldKey = 'old';
+        $newKey = 'new';
+        if ($reverseKey) {
+            $oldKey = 'new';
+            $newKey = 'old';
+        }
+        $difference = [];
+        foreach ($firstArray as $firstKey => $firstValue) {
+            if (is_array($firstValue)) {
+                if (!array_key_exists($firstKey, $secondArray) || !is_array($secondArray[$firstKey])) {
+                    $difference[$oldKey][$firstKey] = $firstValue;
+                    $difference[$newKey][$firstKey] = '';
+                } else {
+                    $newDiff = $this->compareArrays($firstValue, $secondArray[$firstKey], $reverseKey, ++$level);
+                    if (!empty($newDiff)) {
+                        $difference[$oldKey][$firstKey] = $newDiff[$oldKey];
+                        $difference[$newKey][$firstKey] = $newDiff[$newKey];
+                    }
+                }
+            } else {
+                if (!array_key_exists($firstKey, $secondArray) || $secondArray[$firstKey] != $firstValue) {
+                    $difference[$oldKey][$firstKey] = $firstValue;
+                    $difference[$newKey][$firstKey] = $secondArray[$firstKey];
+                }
+            }
+        }
+        return $difference;
     }
 }

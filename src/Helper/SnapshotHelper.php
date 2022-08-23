@@ -11,7 +11,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SnapshotHelper
 {
-    private $client;
+    private HttpClientInterface $client;
     private SnapshotFactory $snapshotFactory;
 
     public function __construct(HttpClientInterface $client, SnapshotFactory $snapshotFactory)
@@ -36,7 +36,7 @@ class SnapshotHelper
 
         $method = $source->getMethod() ?? Request::METHOD_GET;
         try {
-            $response = $this->client->request($method, $source->getUrl());
+            $response = $this->client->request($method, $source->getUrl(), ['timeout' => -1]);
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }

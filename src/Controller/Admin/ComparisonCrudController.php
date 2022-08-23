@@ -7,6 +7,7 @@ use App\Helper\ComparisonHelper;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
@@ -42,8 +43,8 @@ class ComparisonCrudController extends AbstractCrudController
                 AssociationField::new('snapshot2'),
                 DateTimeField::new('createdAt'),
                 DateTimeField::new('updatedAt'),
-                TextareaField::new('mainData'),
-                TextareaField::new('revertData')
+                TextareaField::new('mainData')
+                    ->addCssClass('compare-main-data')
             ];
         }
         return [
@@ -87,4 +88,12 @@ class ComparisonCrudController extends AbstractCrudController
 
         return $this->redirect($url);
     }
+
+    public function configureAssets(Assets $assets): Assets
+    {
+        return parent::configureAssets($assets)
+            ->addWebpackEncoreEntry('admin_compare');
+    }
+
+
 }
