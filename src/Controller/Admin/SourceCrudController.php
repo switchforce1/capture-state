@@ -54,8 +54,13 @@ class SourceCrudController extends AbstractCrudController
         $snapshot = $snapshotHelper->buildSnapshot($source);
 
 
-        $this->persistEntity($this->container->get('doctrine')->getManagerForClass($adminContext->getEntity()->getFqcn()), $snapshot);
-        $this->addFlash('success', 'Snapshot created');
+        if (!empty($snapshot)) {
+            $this->persistEntity($this->container->get('doctrine')->getManagerForClass($adminContext->getEntity()->getFqcn()), $snapshot);
+            $this->addFlash('success', 'Snapshot created');
+        } else {
+            $this->addFlash('warning', 'Can not create snapshot !!!');
+        }
+
 
         $url = $this->container->get(AdminUrlGenerator::class)
             ->setController(SourceCrudController::class)

@@ -20,7 +20,7 @@ class SnapshotHelper
         $this->snapshotFactory = $snapshotFactory;
     }
 
-    public function buildSnapshot(Source $source): Snapshot
+    public function buildSnapshot(Source $source): ?Snapshot
     {
         if (empty($source)) {
             throw new \Exception('Unable to build snapshot without any source specified');
@@ -37,10 +37,11 @@ class SnapshotHelper
         $method = $source->getMethod() ?? Request::METHOD_GET;
         try {
             $response = $this->client->request($method, $source->getUrl(), ['timeout' => -1]);
+            $rawContent = $response->getContent();
         } catch (\Exception $exception) {
-            throw new \Exception($exception->getMessage());
+            return null;
+//            throw new \Exception($exception->getMessage());
         }
-        $rawContent = $response->getContent();
         $json = json_decode($rawContent, true);
         $snapshot
             ->setData($json)
