@@ -50,7 +50,7 @@ class ComparisonHelper
             } else {
                 if (!array_key_exists($firstKey, $secondArray) || $secondArray[$firstKey] != $firstValue) {
                     $difference[$oldKey][$firstKey] = $firstValue;
-                    $difference[$newKey][$firstKey] = $secondArray[$firstKey];
+                    $difference[$newKey][$firstKey] = $secondArray[$firstKey] ?? null;
                 }
             }
         }

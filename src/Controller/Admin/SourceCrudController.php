@@ -58,9 +58,8 @@ class SourceCrudController extends AbstractCrudController
         $this->addFlash('success', 'Snapshot created');
 
         $url = $this->container->get(AdminUrlGenerator::class)
-            ->setController(SnapshotCrudController::class)
-            ->setAction(Action::DETAIL)
-            ->setEntityId($snapshot->getId())
+            ->setController(SourceCrudController::class)
+            ->setAction(Action::INDEX)
             ->generateUrl();
 
         return $this->redirect($url);
