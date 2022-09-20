@@ -29,6 +29,9 @@ help :
 start:
 	docker-compose up -d
 
+start-watch:
+	docker-compose up
+
 stop:
 	docker-compose stop
 
