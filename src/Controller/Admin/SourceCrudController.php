@@ -38,9 +38,12 @@ class SourceCrudController extends AbstractCrudController
         $createSnapshotAction = Action::new('CreateSnapshot', 'Create snapshot')
             ->setIcon('fa fa-camera')
             ->linkToCrudAction('createSnapshotAction');
+        $createSelectedSnapshotsAction = Action::new('createSelectedSnapshots', 'Create snapshot')
+            ->setIcon('fa fa-camera')
+            ->linkToCrudAction('createSelectedSnapshots');
         return parent::configureActions($actions)
-            ->add(Crud::PAGE_INDEX, $createSnapshotAction);
-
+            ->add(Crud::PAGE_INDEX, $createSnapshotAction)
+        ;
     }
 
     public function createSnapshotAction(AdminContext $adminContext, SnapshotHelper $snapshotHelper)
@@ -52,7 +55,6 @@ class SourceCrudController extends AbstractCrudController
             ->find($id);
 
         $snapshot = $snapshotHelper->buildSnapshot($source);
-
 
         if (!empty($snapshot)) {
             $this->persistEntity($this->container->get('doctrine')->getManagerForClass($adminContext->getEntity()->getFqcn()), $snapshot);
@@ -68,5 +70,15 @@ class SourceCrudController extends AbstractCrudController
             ->generateUrl();
 
         return $this->redirect($url);
+    }
+
+    /**
+     * @param AdminContext $adminContext
+     * @param SnapshotHelper $snapshotHelper
+     * @return void
+     */
+    public function createSelectedSnapshots(AdminContext $adminContext, SnapshotHelper $snapshotHelper)
+    {
+
     }
 }
