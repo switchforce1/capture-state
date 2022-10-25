@@ -49,8 +49,7 @@ class SourceGroupSnapshotCrudController extends AbstractCrudController
 
     public function createSnapshotsAction(
         AdminContext $adminContext,
-        SnapshotHelper $snapshotHelper,
-        EntityManagerInterface $entityManager
+        SnapshotHelper $snapshotHelper
     ) {
         $id = $adminContext->getRequest()->query->get('entityId');
         /** @var SourceGroupSnapshot $sourceGroupSnapshot */
@@ -59,7 +58,10 @@ class SourceGroupSnapshotCrudController extends AbstractCrudController
             ->find($id);
         $existingSnapshots =  $sourceGroupSnapshot->getSnapshots();
         if (!$existingSnapshots->isEmpty()) {
-            $this->addFlash('warning', 'Snapshots already exist for this sourceGroupSnapshot');
+            $this->addFlash(
+                'warning',
+                'Snapshots already exist for this sourceGroupSnapshot. You must create another one'
+            );
         } else {
             $sourceGroup = $sourceGroupSnapshot->getSourceGroup();
             $sources = $sourceGroup->getSources();
@@ -69,7 +71,10 @@ class SourceGroupSnapshotCrudController extends AbstractCrudController
                 $snapshot = $snapshotHelper->buildSnapshot($source);
                 if (!empty($snapshot)) {
                     $snapshot->setSourceGroupSnapshot($sourceGroupSnapshot);
-                    $this->persistEntity($this->container->get('doctrine')->getManagerForClass($adminContext->getEntity()->getFqcn()), $snapshot);
+                    $this->persistEntity(
+                        $this->container->get('doctrine')->getManagerForClass($adminContext->getEntity()->getFqcn()),
+                        $snapshot
+                    );
                 }
             }
             $this->addFlash('success', 'Snapshot created');

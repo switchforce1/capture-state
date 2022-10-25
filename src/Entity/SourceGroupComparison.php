@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SourceGroupComparisonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: SourceGroupComparisonRepository::class)]
 class SourceGroupComparison
@@ -27,6 +28,10 @@ class SourceGroupComparison
     #[ORM\JoinColumn(nullable: false)]
     private $sourceGroupSnapshot2;
 
+    public function __construct()
+    {
+        $this->code = Uuid::v4()->toRfc4122();
+    }
 
     public function getId(): ?int
     {

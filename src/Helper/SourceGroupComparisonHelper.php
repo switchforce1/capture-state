@@ -15,9 +15,4 @@ class SourceGroupComparisonHelper
     {
         $this->comparisonHelper = $comparisonHelper;
     }
-
-    public function buildComparisons(SourceGroupComparison $sourceGroupComparison)
-    {
-
-    }
 }

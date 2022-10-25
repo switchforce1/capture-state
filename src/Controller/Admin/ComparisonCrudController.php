@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\BatchActionDto;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Exception\ForbiddenActionException;
@@ -66,9 +67,15 @@ class ComparisonCrudController extends AbstractCrudController
             ->setIcon('fa fa-cycle')
             ->linkToCrudAction('refreshDataAction')
         ;
+//        $deleteSelectedItemsAction = Action::new('deleteSelectedItemsAction', 'Delete selected items')
+//            ->setIcon('fa fa-trash')
+//            ->linkToCrudAction('deleteSelected')
+//        ;
 
         return parent::configureActions($actions)
-            ->add(Crud::PAGE_DETAIL, $refreshDataAction);
+            ->add(Crud::PAGE_DETAIL, $refreshDataAction)
+//            ->addBatchAction($deleteSelectedItemsAction)
+        ;
     }
 
     public function refreshDataAction(AdminContext $adminContext, ComparisonHelper $comparisonHelper)
@@ -91,6 +98,22 @@ class ComparisonCrudController extends AbstractCrudController
 
         return $this->redirect($url);
     }
+
+//    public function deleteSelectedItemsAction(AdminContext $context, BatchActionDto $batchActionDto)
+//    {
+//        $event = new BeforeCrudActionEvent($context);
+//        $this->container->get('event_dispatcher')->dispatch($event);
+//        if ($event->isPropagationStopped()) {
+//            return $event->getResponse();
+//        }
+//
+//        if (!$this->isCsrfTokenValid('ea-batch-action-'.Action::BATCH_DELETE, $batchActionDto->getCsrfToken())) {
+//            return $this->redirectToRoute($context->getDashboardRouteName());
+//        }
+//
+//        $ids = $batchActionDto->getEntityIds();
+//
+//    }
 
     public function configureAssets(Assets $assets): Assets
     {

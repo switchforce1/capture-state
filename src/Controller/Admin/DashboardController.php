@@ -37,16 +37,22 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('MDM - Snapshot data', 'fa fa-dashboard');
+
+        // CAPTURES
         yield MenuItem::section('Captures');
         yield MenuItem::linkToCrud('SourceGroups', 'fa fa-archive', SourceGroup::class)
-            ->setAction('index');
-        yield MenuItem::linkToCrud('SourceGroupSnapshots', 'fa fa-archive', SourceGroupSnapshot::class)
             ->setAction('index');
         yield MenuItem::linkToCrud('Sources', 'fa fa-dot-circle', Source::class);
         yield MenuItem::linkToCrud('Snapshot', 'fa fa-camera', Snapshot::class);
         yield MenuItem::linkToCrud('Comparisons', 'fa fa-binoculars', Comparison::class);
-        yield MenuItem::linkToCrud('SourceGroupComparisons', 'fa fa-binoculars', SourceGroupComparison::class);
 
+        // GROUPS
+        yield MenuItem::section('Groups');
+        yield MenuItem::linkToCrud('SourceGroupSnapshots', 'fa fa-layer-group', SourceGroupSnapshot::class)
+            ->setAction('index');
+        yield MenuItem::linkToCrud('SourceGroupComparisons', 'fa fa-list-check', SourceGroupComparison::class);
+
+        // TAGS
         yield MenuItem::section('Tags');
         yield MenuItem::linkToCrud('Tags', 'fas fa-tag', Tag::class);
     }
