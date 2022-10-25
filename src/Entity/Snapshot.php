@@ -33,6 +33,10 @@ class Snapshot
     #[ORM\JoinColumn(nullable: false)]
     private ?Source $source;
 
+    #[ORM\ManyToOne(targetEntity: SourceGroupSnapshot::class, inversedBy: 'snapshots')]
+    #[ORM\JoinColumn(nullable: true)]
+    private $sourceGroupSnapshot;
+
     /**
      * Snapshot constructor.
      */
@@ -119,6 +123,18 @@ class Snapshot
     public function setSource(?Source $source): self
     {
         $this->source = $source;
+
+        return $this;
+    }
+
+    public function getSourceGroupSnapshot(): ?SourceGroupSnapshot
+    {
+        return $this->sourceGroupSnapshot;
+    }
+
+    public function setSourceGroupSnapshot(?SourceGroupSnapshot $sourceGroupSnapshot): self
+    {
+        $this->sourceGroupSnapshot = $sourceGroupSnapshot;
 
         return $this;
     }

@@ -30,11 +30,15 @@ class SourceGroup
     #[ORM\OneToMany(mappedBy: 'sourceGroup', targetEntity: Source::class)]
     private $sources;
 
+    #[ORM\OneToMany(mappedBy: 'sourceGroup', targetEntity: SourceGroupSnapshot::class, orphanRemoval: true)]
+    private $sourceGroupSnapshots;
+
     public function __construct()
     {
         $this->sources = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->sourceGroupSnapshots = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,5 +127,35 @@ class SourceGroup
     public function __toString(): string
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection<int, SourceGroupSnapshot>
+     */
+    public function getSourceGroupSnapshots(): Collection
+    {
+        return $this->sourceGroupSnapshots;
+    }
+
+    public function addSourceGroupSnapshot(SourceGroupSnapshot $sourceGroupSnapshot): self
+    {
+        if (!$this->sourceGroupSnapshots->contains($sourceGroupSnapshot)) {
+            $this->sourceGroupSnapshots[] = $sourceGroupSnapshot;
+            $sourceGroupSnapshot->setSourceGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSourceGroupSnapshot(SourceGroupSnapshot $sourceGroupSnapshot): self
+    {
+        if ($this->sourceGroupSnapshots->removeElement($sourceGroupSnapshot)) {
+            // set the owning side to null (unless already changed)
+            if ($sourceGroupSnapshot->getSourceGroup() === $this) {
+                $sourceGroupSnapshot->setSourceGroup(null);
+            }
+        }
+
+        return $this;
     }
 }

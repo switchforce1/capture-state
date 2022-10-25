@@ -97,6 +97,4 @@ class ComparisonCrudController extends AbstractCrudController
         return parent::configureAssets($assets)
             ->addWebpackEncoreEntry('admin_compare');
     }
-
-
 }

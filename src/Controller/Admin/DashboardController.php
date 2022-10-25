@@ -6,6 +6,8 @@ use App\Entity\Comparison;
 use App\Entity\Snapshot;
 use App\Entity\Source;
 use App\Entity\SourceGroup;
+use App\Entity\SourceGroupComparison;
+use App\Entity\SourceGroupSnapshot;
 use App\Entity\Tag;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -36,10 +38,14 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('MDM - Snapshot data', 'fa fa-dashboard');
         yield MenuItem::section('Captures');
-        yield MenuItem::linkToCrud('SourceGroups', 'fa fa-archive', SourceGroup::class)->setAction('index');
+        yield MenuItem::linkToCrud('SourceGroups', 'fa fa-archive', SourceGroup::class)
+            ->setAction('index');
+        yield MenuItem::linkToCrud('SourceGroupSnapshots', 'fa fa-archive', SourceGroupSnapshot::class)
+            ->setAction('index');
         yield MenuItem::linkToCrud('Sources', 'fa fa-dot-circle', Source::class);
         yield MenuItem::linkToCrud('Snapshot', 'fa fa-camera', Snapshot::class);
         yield MenuItem::linkToCrud('Comparisons', 'fa fa-binoculars', Comparison::class);
+        yield MenuItem::linkToCrud('SourceGroupComparisons', 'fa fa-binoculars', SourceGroupComparison::class);
 
         yield MenuItem::section('Tags');
         yield MenuItem::linkToCrud('Tags', 'fas fa-tag', Tag::class);
