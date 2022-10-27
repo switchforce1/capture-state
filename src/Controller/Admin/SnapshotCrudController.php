@@ -21,10 +21,20 @@ class SnapshotCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        if ($pageName === Crud::PAGE_DETAIL) {
+        if ($pageName === Crud::PAGE_INDEX) {
             return [
                 TextField::new('uuid'),
                 AssociationField::new('source'),
+                AssociationField::new('sourceGroupSnapshot'),
+                DateTimeField::new('createdAt'),
+                DateTimeField::new('updatedAt'),
+            ];
+        }
+        if ($pageName == Crud::PAGE_DETAIL) {
+            return [
+                TextField::new('uuid'),
+                AssociationField::new('source'),
+                AssociationField::new('sourceGroupSnapshot'),
                 DateTimeField::new('createdAt'),
                 DateTimeField::new('updatedAt'),
                 TextareaField::new('rawData'),
