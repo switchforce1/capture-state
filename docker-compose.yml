@@ -13,20 +13,20 @@ services:
   php:
     build:
       context: ./.docker/php
-      args:
-        TIMEZONE: ${TIMEZONE}
+    env_file:
+        - ./.docker/.env
     volumes:
-      - .:/var/www/symfony/
+      - .:/var/www/app/
   nginx:
     build:
       context: ./.docker/nginx
     volumes:
-      - .:/var/www/symfony/
+      - .:/var/www/app/
     ports:
       - 8099:80
     env_file:
       - ./.docker/.env.nginx.local
 volumes:
-  symfony_dockerized_app_sync:
+  app_sync:
   db_app:
   db-data:
