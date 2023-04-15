@@ -20,8 +20,6 @@ final class Version20221025171318 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE source_group_comparison DROP CONSTRAINT fk_a5f361c261a35484');
-        $this->addSql('DROP INDEX idx_a5f361c261a35484');
         $this->addSql('ALTER TABLE source_group_comparison ADD source_group_snapshot1_id INT NOT NULL');
         $this->addSql('ALTER TABLE source_group_comparison ADD source_group_snapshot2_id INT NOT NULL');
         $this->addSql('ALTER TABLE source_group_comparison DROP source_group_snapshot_id');

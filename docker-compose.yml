@@ -17,6 +17,7 @@ services:
         - ./.docker/.env
     volumes:
       - .:/var/www/app/
+    restart: on-failure
   nginx:
     build:
       context: ./.docker/nginx
