@@ -2,7 +2,6 @@ name: Deploy starting
 on:
   push:
     tags:
-      branches: [ "main", "dev" ]
 
 permissions:
   contents: read
