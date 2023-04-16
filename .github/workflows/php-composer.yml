@@ -14,11 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Update package manager
-        run: apt update -y && apt upgrade -y
+        run: sudo apt update -y && apt upgrade -y
       - name: Install PHP 8.1
-        run: apt install -y --no-install-recommends php8.1
+        run: sudo apt install -y --no-install-recommends php8.1
       - name: Install PHP Extensions
-        run: apt install -y php8.1-cli php8.1-common php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-xml php8.1-bcmath
+        run: sudo apt install -y php8.1-cli php8.1-common php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-xml php8.1-bcmath
       - name: Install composer
         run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
       - name: Update composer version
@@ -54,9 +54,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Update package manager
-        run: apt update -y && apt upgrade -y
+        run: sudo apt update -y && apt upgrade -y
       - name: Install NPM
-        run: apt install -y software-properties-common npm
+        run: sudo apt install -y software-properties-common npm
       - name: Install npm dependence
         run: |
           npm install npm@latest -g &&
