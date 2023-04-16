@@ -1,8 +1,7 @@
-name: PHP Composer
-
+name: Build Composer & npm
 on:
   push:
-    branches: [ "main", "dev"]
+    branches: [ "main", "dev" ]
   pull_request:
     branches: [ "main" ]
 
@@ -10,30 +9,55 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  build-composer:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-
+      - uses: actions/checkout@v3
+      - name: Update package manager
+        run: sudo apt update -y && sudo apt upgrade -y
+      - name: Install PHP 8.1
+        run: sudo apt install -y --no-install-recommends php8.1
+      - name: Install PHP Extensions
+        run: sudo apt install -y php8.1-cli php8.1-common php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-xml php8.1-bcmath
+      - name: Install composer
+        run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      - name: Update composer version
+        run: composer self-update --snapshot
+      - name: Check composer version
+        run: composer -v
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+#      - name: Archive vendor
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: vendor
+#          path: |
+#            vendor
+    #            !dist/**/*.md
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     # - name: Run test suite
     #   run: composer run-script test
+  build-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update package manager
+        run: sudo apt update -y && sudo apt upgrade -y
+      - name: Install NPM
+        run: sudo apt install -y software-properties-common npm
+      - name: Install npm dependence
+        run: |
+          npm install npm@latest -g &&
+          npm install n -g latest
