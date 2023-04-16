@@ -70,6 +70,9 @@ clean-db-test: cc-hard cc-test
 composer-install:
 	docker-compose exec php composer install
 
+composer-update:
+	docker-compose exec php composer update
+
 func-test: clean-db-test
 	docker-compose exec php ./vendor/bin/phpunit --verbose tests/Func
 
