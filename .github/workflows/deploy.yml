@@ -2,6 +2,7 @@ name: Deploy starting
 on:
   push:
     tags:
+      - '*'
 
 permissions:
   contents: read
