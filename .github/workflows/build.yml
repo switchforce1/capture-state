@@ -1,4 +1,4 @@
-name: Build Composer & npm
+name: Build Composer & Build npm
 on:
   push:
     branches: [ "main", "dev" ]
