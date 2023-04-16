@@ -3,30 +3,19 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Builder\ComparisonBuilder;
 use App\Entity\Comparison;
-use App\Helper\ComparisonHelper;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\BatchActionDto;
-use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
-use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
-use EasyCorp\Bundle\EasyAdminBundle\Exception\ForbiddenActionException;
-use EasyCorp\Bundle\EasyAdminBundle\Exception\InsufficientEntityPermissionException;
-use EasyCorp\Bundle\EasyAdminBundle\Factory\EntityFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use EasyCorp\Bundle\EasyAdminBundle\Security\Permission;
 
 class ComparisonCrudController extends AbstractCrudController
 {
@@ -51,6 +40,7 @@ class ComparisonCrudController extends AbstractCrudController
                     ->addCssClass('compare-revert-data')
             ];
         }
+
         return [
             TextField::new('reason'),
             AssociationField::new('source'),
@@ -78,14 +68,14 @@ class ComparisonCrudController extends AbstractCrudController
         ;
     }
 
-    public function refreshDataAction(AdminContext $adminContext, ComparisonHelper $comparisonHelper)
+    public function refreshDataAction(AdminContext $adminContext, ComparisonBuilder $comparisonBuilder)
     {
         $id = $adminContext->getRequest()->query->get('entityId');
         /** @var Comparison $comparison */
         $comparison = $this->container->get('doctrine')
             ->getRepository(Comparison::class)
             ->find($id);
-        $comparison = $comparisonHelper->refreshComparisonData($comparison);
+        $comparison = $comparisonBuilder->refreshComparisonData($comparison);
 
         $this->persistEntity($this->container->get('doctrine')->getManagerForClass($adminContext->getEntity()->getFqcn()), $comparison);
         $this->addFlash('success', 'Comparison data successfully refreshed.');

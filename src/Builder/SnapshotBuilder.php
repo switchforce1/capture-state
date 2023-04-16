@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Helper;
+namespace App\Builder;
 
 use App\Entity\Snapshot;
 use App\Entity\Source;
@@ -9,7 +9,7 @@ use App\Factory\SnapshotFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class SnapshotHelper
+class SnapshotBuilder
 {
     private HttpClientInterface $client;
     private SnapshotFactory $snapshotFactory;

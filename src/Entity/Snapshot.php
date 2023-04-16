@@ -26,7 +26,7 @@ class Snapshot
     #[ORM\Column(type: 'json', nullable: true)]
     private $data = [];
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $rawData;
 
     #[ORM\ManyToOne(targetEntity: Source::class)]

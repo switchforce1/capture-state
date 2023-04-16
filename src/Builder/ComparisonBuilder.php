@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Helper;
+namespace App\Builder;
 
 use App\Entity\Comparison;
 
-class ComparisonHelper
+class ComparisonBuilder
 {
     private const MAX_COMPARE_LEVEL = 11;
     public function refreshComparisonData(Comparison $comparison): Comparison

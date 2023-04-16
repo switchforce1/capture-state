@@ -2,33 +2,18 @@
 
 namespace App\Controller\Admin;
 
+use App\Builder\SnapshotBuilder;
 use App\Entity\Snapshot;
 use App\Entity\Source;
 use App\Entity\SourceGroupSnapshot;
-use App\Helper\SnapshotHelper;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManagerInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
-use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
-use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
-use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
-use EasyCorp\Bundle\EasyAdminBundle\Exception\ForbiddenActionException;
-use EasyCorp\Bundle\EasyAdminBundle\Exception\InsufficientEntityPermissionException;
-use EasyCorp\Bundle\EasyAdminBundle\Factory\EntityFactory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use EasyCorp\Bundle\EasyAdminBundle\Security\Permission;
 
 class SourceGroupSnapshotCrudController extends AbstractCrudController
 {
@@ -49,7 +34,7 @@ class SourceGroupSnapshotCrudController extends AbstractCrudController
 
     public function createSnapshotsAction(
         AdminContext $adminContext,
-        SnapshotHelper $snapshotHelper
+        SnapshotBuilder $snapshotBuilder
     ) {
         $id = $adminContext->getRequest()->query->get('entityId');
         /** @var SourceGroupSnapshot $sourceGroupSnapshot */
@@ -68,7 +53,7 @@ class SourceGroupSnapshotCrudController extends AbstractCrudController
             /** @var Source $source */
             foreach ($sources as $source) {
                 /** @var Snapshot $snapshot */
-                $snapshot = $snapshotHelper->buildSnapshot($source);
+                $snapshot = $snapshotBuilder->buildSnapshot($source);
                 if (!empty($snapshot)) {
                     $snapshot->setSourceGroupSnapshot($sourceGroupSnapshot);
                     $this->persistEntity(

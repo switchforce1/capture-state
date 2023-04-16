@@ -2,14 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Builder\ComparisonBuilder;
 use App\Entity\Comparison;
 use App\Entity\Snapshot;
 use App\Entity\SourceGroupComparison;
-use App\Entity\SourceGroupSnapshot;
 use App\Factory\ComparisonFactory;
-use App\Helper\ComparisonHelper;
-use App\Helper\SnapshotHelper;
-use App\Helper\SourceGroupSnapshotHelper;
+use App\Formatter\SourceGroupSnapshotFormatter;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -17,7 +15,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
@@ -49,10 +46,10 @@ class SourceGroupComparisonCrudController extends AbstractCrudController
     }
 
     public function createComparisons(
-        AdminContext $adminContext,
-        ComparisonHelper $comparisonHelper,
-        SourceGroupSnapshotHelper $sourceGroupSnapshotHelper,
-        ComparisonFactory $comparisonFactory
+        AdminContext                 $adminContext,
+        ComparisonBuilder            $comparisonBuilder,
+        SourceGroupSnapshotFormatter $sourceGroupSnapshotFormatter,
+        ComparisonFactory            $comparisonFactory
     ) {
         $id = $adminContext->getRequest()->query->get('entityId');
         /** @var SourceGroupComparison $sourceGroupComparison */
@@ -60,9 +57,9 @@ class SourceGroupComparisonCrudController extends AbstractCrudController
             ->getRepository(SourceGroupComparison::class)
             ->find($id);
         $sourceGroupSnapshot1 = $sourceGroupComparison->getSourceGroupSnapshot1();
-        $formattedSourceSnapshots1 = $sourceGroupSnapshotHelper->getFormattedSourceSnapshots($sourceGroupSnapshot1);
+        $formattedSourceSnapshots1 = $sourceGroupSnapshotFormatter->getFormattedSourceSnapshots($sourceGroupSnapshot1);
         $sourceGroupSnapshot2 = $sourceGroupComparison->getSourceGroupSnapshot2();
-        $formattedSourceSnapshots2 = $sourceGroupSnapshotHelper->getFormattedSourceSnapshots($sourceGroupSnapshot2);
+        $formattedSourceSnapshots2 = $sourceGroupSnapshotFormatter->getFormattedSourceSnapshots($sourceGroupSnapshot2);
 
         $comparisons = [];
         /**
@@ -98,7 +95,7 @@ class SourceGroupComparisonCrudController extends AbstractCrudController
                     $this->container->get('doctrine')->getManagerForClass(Comparison::class),
                     $comparison
                 );
-                $comparisonHelper->refreshComparisonData($comparison);
+                $comparisonBuilder->refreshComparisonData($comparison);
                 $comparisons[] = $comparisons;
             } catch (\Exception $exception) {
                 continue;

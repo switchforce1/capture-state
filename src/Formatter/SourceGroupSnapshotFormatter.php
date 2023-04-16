@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Helper;
+namespace App\Formatter;
 
-use App\Entity\Snapshot;
 use App\Entity\Source;
-use App\Entity\SourceGroupComparison;
 use App\Entity\SourceGroupSnapshot;
 use App\Repository\SnapshotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class SourceGroupSnapshotHelper
+class SourceGroupSnapshotFormatter
 {
     private EntityManagerInterface $entityManager;
     private SnapshotRepository $snapshotRepository;

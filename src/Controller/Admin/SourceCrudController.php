@@ -2,16 +2,14 @@
 
 namespace App\Controller\Admin;
 
+use App\Builder\SnapshotBuilder;
 use App\Entity\Source;
-use App\Factory\SnapshotFactory;
-use App\Helper\SnapshotHelper;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
@@ -46,7 +44,7 @@ class SourceCrudController extends AbstractCrudController
         ;
     }
 
-    public function createSnapshotAction(AdminContext $adminContext, SnapshotHelper $snapshotHelper)
+    public function createSnapshotAction(AdminContext $adminContext, SnapshotBuilder $snapshotBuilder)
     {
         $id = $adminContext->getRequest()->query->get('entityId');
         /** @var Source $source */
@@ -54,7 +52,7 @@ class SourceCrudController extends AbstractCrudController
             ->getRepository(Source::class)
             ->find($id);
 
-        $snapshot = $snapshotHelper->buildSnapshot($source);
+        $snapshot = $snapshotBuilder->buildSnapshot($source);
 
         if (!empty($snapshot)) {
             $this->persistEntity($this->container->get('doctrine')->getManagerForClass($adminContext->getEntity()->getFqcn()), $snapshot);
@@ -74,10 +72,10 @@ class SourceCrudController extends AbstractCrudController
 
     /**
      * @param AdminContext $adminContext
-     * @param SnapshotHelper $snapshotHelper
+     * @param SnapshotBuilder $snapshotBuilder
      * @return void
      */
-    public function createSelectedSnapshots(AdminContext $adminContext, SnapshotHelper $snapshotHelper)
+    public function createSelectedSnapshots(AdminContext $adminContext, SnapshotBuilder $snapshotBuilder)
     {
 
     }

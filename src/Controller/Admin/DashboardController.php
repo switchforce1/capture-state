@@ -43,7 +43,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('SourceGroups', 'fa fa-archive', SourceGroup::class)
             ->setAction('index');
         yield MenuItem::linkToCrud('Sources', 'fa fa-dot-circle', Source::class);
-        yield MenuItem::linkToCrud('Snapshot', 'fa fa-camera', Snapshot::class);
+        yield MenuItem::linkToCrud('Snapshots', 'fa fa-camera', Snapshot::class);
         yield MenuItem::linkToCrud('Comparisons', 'fa fa-binoculars', Comparison::class);
 
         // GROUPS
