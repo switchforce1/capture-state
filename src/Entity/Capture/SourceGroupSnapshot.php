@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Entity;
+declare(strict_types=1);
 
-use App\Repository\SourceGroupSnapshotRepository;
+namespace App\Entity\Capture;
+
+use App\Repository\Capture\SourceGroupSnapshotRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Factory\Capture;
 
-use App\Entity\Snapshot;
-use App\Entity\Source;
+use App\Entity\Capture\Snapshot;
+use App\Entity\Capture\Source;
 
 class SnapshotFactory
 {

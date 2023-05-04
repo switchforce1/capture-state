@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Repository;
+declare(strict_types=1);
 
-use App\Entity\Tag;
+namespace App\Repository\Capture;
+
+use App\Entity\Capture\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

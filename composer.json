@@ -23,9 +23,10 @@
     },
     "require-dev": {
         "codeception/codeception": "^5.0",
-        "symfony/maker-bundle": "1.43.*",
+        "codeception/module-asserts": "*",
         "codeception/module-phpbrowser": "*",
-        "codeception/module-asserts": "*"
+        "hautelook/alice-bundle": "^2.12",
+        "symfony/maker-bundle": "1.43.*"
     },
     "config": {
         "preferred-install": {

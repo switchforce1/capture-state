@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Builder;
+namespace App\Builder\Capture;
 
-use App\Entity\Comparison;
+use App\Entity\Capture\Comparison;
 
 class ComparisonBuilder
 {

@@ -2,10 +2,10 @@
 
 namespace App\Controller\Admin;
 
-use App\Builder\SnapshotBuilder;
-use App\Entity\Snapshot;
-use App\Entity\Source;
-use App\Entity\SourceGroupSnapshot;
+use App\Builder\Capture\SnapshotBuilder;
+use App\Entity\Capture\Snapshot;
+use App\Entity\Capture\Source;
+use App\Entity\Capture\SourceGroupSnapshot;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Formatter;
+namespace App\Formatter\Capture;
 
-use App\Entity\Source;
-use App\Entity\SourceGroupSnapshot;
-use App\Repository\SnapshotRepository;
+use App\Entity\Capture\Source;
+use App\Entity\Capture\SourceGroupSnapshot;
+use App\Repository\Capture\SnapshotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SourceGroupSnapshotFormatter

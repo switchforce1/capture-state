@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Entity;
+declare(strict_types=1);
 
-use App\Repository\SourceGroupComparisonRepository;
+namespace App\Entity\Capture;
+
+use App\Repository\Capture\SourceGroupComparisonRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 

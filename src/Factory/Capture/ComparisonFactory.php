@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Factory\Capture;
 
-use App\Entity\Comparison;
-use App\Entity\Snapshot;
+use App\Entity\Capture\Comparison;
+use App\Entity\Capture\Snapshot;
 
 class ComparisonFactory
 {

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Builder;
+declare(strict_types=1);
+
+namespace App\Builder\Capture;
 
 class SourceGroupComparisonBuilder
 {

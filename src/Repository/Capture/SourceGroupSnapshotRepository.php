@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Capture;
 
-use App\Entity\Snapshot;
+use App\Entity\Capture\SourceGroupSnapshot;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Snapshot>
+ * @extends ServiceEntityRepository<SourceGroupSnapshot>
  *
- * @method Snapshot|null find($id, $lockMode = null, $lockVersion = null)
- * @method Snapshot|null findOneBy(array $criteria, array $orderBy = null)
- * @method Snapshot[]    findAll()
- * @method Snapshot[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method SourceGroupSnapshot|null find($id, $lockMode = null, $lockVersion = null)
+ * @method SourceGroupSnapshot|null findOneBy(array $criteria, array $orderBy = null)
+ * @method SourceGroupSnapshot[]    findAll()
+ * @method SourceGroupSnapshot[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SnapshotRepository extends ServiceEntityRepository
+class SourceGroupSnapshotRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Snapshot::class);
+        parent::__construct($registry, SourceGroupSnapshot::class);
     }
 
-    public function add(Snapshot $entity, bool $flush = false): void
+    public function add(SourceGroupSnapshot $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class SnapshotRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Snapshot $entity, bool $flush = false): void
+    public function remove(SourceGroupSnapshot $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class SnapshotRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Snapshot[] Returns an array of Snapshot objects
+//     * @return SourceGroupSnapshot[] Returns an array of SourceGroupSnapshot objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class SnapshotRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Snapshot
+//    public function findOneBySomeField($value): ?SourceGroupSnapshot
 //    {
 //        return $this->createQueryBuilder('s')
 //            ->andWhere('s.exampleField = :val')

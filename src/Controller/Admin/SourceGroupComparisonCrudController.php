@@ -2,12 +2,12 @@
 
 namespace App\Controller\Admin;
 
-use App\Builder\ComparisonBuilder;
-use App\Entity\Comparison;
-use App\Entity\Snapshot;
-use App\Entity\SourceGroupComparison;
-use App\Factory\ComparisonFactory;
-use App\Formatter\SourceGroupSnapshotFormatter;
+use App\Builder\Capture\ComparisonBuilder;
+use App\Entity\Capture\Comparison;
+use App\Entity\Capture\Snapshot;
+use App\Entity\Capture\SourceGroupComparison;
+use App\Factory\Capture\ComparisonFactory;
+use App\Formatter\Capture\SourceGroupSnapshotFormatter;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;

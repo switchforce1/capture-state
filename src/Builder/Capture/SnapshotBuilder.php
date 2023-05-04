@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Builder;
+namespace App\Builder\Capture;
 
-use App\Entity\Snapshot;
-use App\Entity\Source;
-use App\Factory\SnapshotFactory;
+use App\Entity\Capture\Snapshot;
+use App\Entity\Capture\Source;
+use App\Factory\Capture\SnapshotFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

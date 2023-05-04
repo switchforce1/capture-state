@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Builder\ComparisonBuilder;
-use App\Entity\Comparison;
+use App\Builder\Capture\ComparisonBuilder;
+use App\Entity\Capture\Comparison;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Capture;
 
-use App\Repository\ComparisonRepository;
+use App\Repository\Capture\ComparisonRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ComparisonRepository::class)]

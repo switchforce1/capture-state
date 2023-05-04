@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Capture;
 
-use App\Entity\Source;
+use App\Entity\Capture\SourceGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Source>
+ * @extends ServiceEntityRepository<SourceGroup>
  *
- * @method Source|null find($id, $lockMode = null, $lockVersion = null)
- * @method Source|null findOneBy(array $criteria, array $orderBy = null)
- * @method Source[]    findAll()
- * @method Source[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method SourceGroup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method SourceGroup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method SourceGroup[]    findAll()
+ * @method SourceGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SourceRepository extends ServiceEntityRepository
+class SourceGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Source::class);
+        parent::__construct($registry, SourceGroup::class);
     }
 
-    public function add(Source $entity, bool $flush = false): void
+    public function add(SourceGroup $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class SourceRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Source $entity, bool $flush = false): void
+    public function remove(SourceGroup $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class SourceRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Source[] Returns an array of Source objects
+//     * @return SourceGroup[] Returns an array of SourceGroup objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class SourceRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Source
+//    public function findOneBySomeField($value): ?SourceGroup
 //    {
 //        return $this->createQueryBuilder('s')
 //            ->andWhere('s.exampleField = :val')

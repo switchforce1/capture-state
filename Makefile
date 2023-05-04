@@ -45,6 +45,11 @@ clean-vendor: cc-hard
 	docker-compose exec php rm composer.lock
 	docker-compose exec php composer install
 
+clean-vendor-dev: cc-hard
+	docker-compose exec php rm -Rf vendor
+	docker-compose exec php rm composer.lock
+	docker-compose exec php composer install --dev
+
 cc:
 	docker-compose exec php bin/console c:c
 
@@ -55,14 +60,12 @@ cc-hard:
 	docker-compose exec php rm -fR var/cache/*
 
 clean-db:
-	docker-compose exec php bin/console doctrine:database:drop --force
+	docker-compose exec php bin/console doctrine:database:drop --force --if-exists
 	docker-compose exec php bin/console doctrine:database:create
 	docker-compose exec php bin/console doctrine:migrations:migrate --no-interaction
-	docker-compose exec php bin/console hautelook:fixtures:load --no-interaction
-	docker-compose exec php bin/console naiades:update-attributes
 
-clean-db-test: cc-hard cc-test
-	- docker-compose exec php bin/console doctrine:database:drop --force --env=test
+clean-db-test: cc-hard cc-test composer-install-dev
+	docker-compose exec php bin/console doctrine:database:drop --force --env=test --if-exists
 	docker-compose exec php bin/console doctrine:database:create --env=test
 	docker-compose exec php bin/console doctrine:migrations:migrate --no-interaction --env=test
 	docker-compose exec php php -d memory_limit=-1 bin/console hautelook:fixtures:load --no-interaction --env=test
@@ -70,16 +73,22 @@ clean-db-test: cc-hard cc-test
 composer-install:
 	docker-compose exec php composer install
 
+composer-install-dev:
+	docker-compose exec php composer install
+
 composer-update:
 	docker-compose exec php composer update
 
+accept-test: clean-db-test
+	docker-compose exec php ./vendor/bin/codecept run Acceptance --verbose --steps
+
 func-test: clean-db-test
-	docker-compose exec php ./vendor/bin/phpunit --verbose tests/Func
+	docker-compose exec php ./vendor/bin/codecept run Functional --verbose
 
 unit-test:
-	docker-compose exec php ./vendor/bin/phpunit --log-junit build/junit/phpunit.xml -dxdebug.max_nesting_level=500 -dmemory_limit=512M --coverage-html ./coverage
+	docker-compose exec php ./vendor/bin/codecept run Unit --verbose
 
-all-test: func-test unit-test
+all-test: accept-test func-test unit-test
 
 linter:
 	docker-compose exec php vendor/bin/phpcs --standard=phpcs.xml -n

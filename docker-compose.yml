@@ -2,8 +2,8 @@ version: "3"
 
 services:
   db:
-    image: postgres:9.6-alpine
-    restart: always
+    image: postgres:15.2-alpine
+    restart: on-failure
     env_file:
       - ./.docker/.env
     ports:
@@ -27,6 +27,7 @@ services:
       - 8099:80
     env_file:
       - ./.docker/.env.nginx.local
+    restart: on-failure
 volumes:
   app_sync:
   db_app:
