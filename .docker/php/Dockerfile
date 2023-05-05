@@ -1,4 +1,5 @@
-FROM php:8.1-fpm-buster
+ARG PHP_VERSION=8.1
+FROM php:${PHP_VERSION}-fpm-buster as php
 ARG TIMEZONE
 
 COPY php.ini /usr/local/etc/php/conf.d/docker-php-config.ini
@@ -42,3 +43,8 @@ RUN npm install npm@latest -g && \
     n latest
 
 WORKDIR /var/www/app
+
+FROM php as php_dev
+RUN apt-get update \
+ && apt-get install -y php-xdebug \
+ && docker-php-ext-install xdebug

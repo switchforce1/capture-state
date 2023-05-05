@@ -1,0 +1,10 @@
+App\Entity\Capture\Tag:
+  tag_test_country:
+    label: country
+    description: All about countries json comparisons.
+  tag_test_draft:
+    label: draft
+    description: Set for draft made for test only.
+  tag_github:
+    label: Github
+    description: Information concerning github

@@ -1,0 +1,6 @@
+App\Entity\Capture\Source:
+  source_github_api_amin:
+    label: Main api.github.com
+    url: https://api.github.com/
+    typeCode: TYPE_JSON_URL
+    sourceGroup: '@source_group_github_api'

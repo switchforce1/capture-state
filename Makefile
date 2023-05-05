@@ -13,8 +13,8 @@ help :
 	@echo "$(STRING_COLOR)prune .........................: Clean all that is not actively used$(NO_COLOR)"
 	@echo "$(STRING_COLOR)clean-db ......................: Clean DB$(NO_COLOR)"
 	@echo "$(STRING_COLOR)clean-vendor ..................: Clean DB$(NO_COLOR)"
-	@echo "$(STRING_COLOR)func-test .....................: Launch func tests$(NO_COLOR)"
-	@echo "$(STRING_COLOR)unit-test .....................: Launch unit test$(NO_COLOR)"
+	@echo "$(STRING_COLOR)test-func .....................: Launch func tests$(NO_COLOR)"
+	@echo "$(STRING_COLOR)test-unit .....................: Launch unit test$(NO_COLOR)"
 	@echo "$(STRING_COLOR)all-test ......................: Launch all test$(NO_COLOR)"
 	@echo "$(STRING_COLOR)linter ........................: Check php coding standard$(NO_COLOR)"
 	@echo "$(STRING_COLOR)linter-fix ....................: Fix coding standard$(NO_COLOR)"
@@ -25,6 +25,12 @@ start:
 
 start-watch:
 	docker-compose up
+
+build:
+	docker-compose build
+
+build-no-cache:
+	docker-compose build --no-cache
 
 stop:
 	docker-compose stop
@@ -59,16 +65,23 @@ cc-test:
 cc-hard:
 	docker-compose exec php rm -fR var/cache/*
 
-clean-db:
+clean-db-test: cc-hard cc-test composer-install-dev reset-db-test load-fixtures-test
+
+reset-db:
 	docker-compose exec php bin/console doctrine:database:drop --force --if-exists
 	docker-compose exec php bin/console doctrine:database:create
 	docker-compose exec php bin/console doctrine:migrations:migrate --no-interaction
 
-clean-db-test: cc-hard cc-test composer-install-dev
+reset-db-test:
 	docker-compose exec php bin/console doctrine:database:drop --force --env=test --if-exists
 	docker-compose exec php bin/console doctrine:database:create --env=test
 	docker-compose exec php bin/console doctrine:migrations:migrate --no-interaction --env=test
-	docker-compose exec php php -d memory_limit=-1 bin/console hautelook:fixtures:load --no-interaction --env=test
+
+load-fixtures:
+	docker-compose exec php bin/console hautelook:fixtures:load --no-bundles --no-interaction --env=dev -v
+
+load-fixtures-test:
+	docker-compose exec php bin/console hautelook:fixtures:load --no-bundles --no-interaction --env=test -vvv
 
 composer-install:
 	docker-compose exec php composer install
@@ -79,16 +92,16 @@ composer-install-dev:
 composer-update:
 	docker-compose exec php composer update
 
-accept-test: clean-db-test
-	docker-compose exec php ./vendor/bin/codecept run Acceptance --verbose --steps
+test-accept: reset-db-test load-fixtures-test
+	docker-compose exec php ./vendor/bin/codecept run Acceptance --coverage --coverage-xml --coverage-html --steps
 
-func-test: clean-db-test
-	docker-compose exec php ./vendor/bin/codecept run Functional --verbose
+test-func: reset-db-test load-fixtures-test
+	docker-compose exec php ./vendor/bin/codecept run Functional --coverage --coverage-xml --coverage-html
 
-unit-test:
-	docker-compose exec php ./vendor/bin/codecept run Unit --verbose
+test-unit:
+	docker-compose exec php ./vendor/bin/codecept run Unit --coverage --coverage-xml --coverage-html
 
-all-test: accept-test func-test unit-test
+test-all: test-accept test-func test-unit
 
 linter:
 	docker-compose exec php vendor/bin/phpcs --standard=phpcs.xml -n

@@ -1,0 +1,4 @@
+App\Entity\Capture\SourceGroup:
+  source_group_github_api:
+    name: Github api
+    description: All about github open apis

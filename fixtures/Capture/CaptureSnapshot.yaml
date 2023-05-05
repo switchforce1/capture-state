@@ -1,0 +1,3 @@
+App\Entity\Capture\Snapshot:
+  comparison_1:
+    label: test

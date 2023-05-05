@@ -1,0 +1,3 @@
+App\Entity\Capture\SourceGroupSnapshot:
+  comparison_1:
+    label: test
