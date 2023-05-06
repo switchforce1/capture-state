@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
-
-namespace Tests\Functional\Builder;
+namespace Tests\Functional\Factory\Capture;
 
 use Tests\Support\FunctionalTester;
 
-class SnapshotBuilderCest
+class SnapshotFactoryCest
 {
     public function _before(FunctionalTester $I)
     {

@@ -61,6 +61,7 @@ cc:
 
 cc-test:
 	docker-compose exec php bin/console c:c --env=test
+	docker-compose exec php chmod 777 -R tests/_output
 
 cc-hard:
 	docker-compose exec php rm -fR var/cache/*
@@ -92,13 +93,13 @@ composer-install-dev:
 composer-update:
 	docker-compose exec php composer update
 
-test-accept: reset-db-test load-fixtures-test
-	docker-compose exec php ./vendor/bin/codecept run Acceptance --coverage --coverage-xml --coverage-html --steps
+test-accept: cc-test reset-db-test load-fixtures-test
+	docker-compose exec php ./vendor/bin/codecept run Acceptance  --steps
 
-test-func: reset-db-test load-fixtures-test
+test-func: cc-test reset-db-test load-fixtures-test
 	docker-compose exec php ./vendor/bin/codecept run Functional --coverage --coverage-xml --coverage-html
 
-test-unit:
+test-unit: cc-test
 	docker-compose exec php ./vendor/bin/codecept run Unit --coverage --coverage-xml --coverage-html
 
 test-all: test-accept test-func test-unit
