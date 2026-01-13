@@ -13,15 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class SourceGroup
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    protected int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private string $name;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $description;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $description;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;

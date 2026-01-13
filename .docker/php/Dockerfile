@@ -1,5 +1,4 @@
-ARG PHP_VERSION=8.1
-FROM php:${PHP_VERSION}-fpm-buster as php
+FROM php:8.4-fpm
 ARG TIMEZONE
 
 COPY php.ini /usr/local/etc/php/conf.d/docker-php-config.ini
