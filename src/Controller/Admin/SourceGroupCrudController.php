@@ -22,7 +22,7 @@ class SourceGroupCrudController extends AbstractCrudController
         if (in_array($pageName, [Crud::PAGE_INDEX, Crud::PAGE_DETAIL])) {
             return [
                 TextField::new('name'),
-                TextField::new('description'),
+                TextareaField::new('description'),
                 DateTimeField::new('createdAt'),
                 DateTimeField::new('updatedAt'),
                 AssociationField::new('sources'),
@@ -30,7 +30,7 @@ class SourceGroupCrudController extends AbstractCrudController
         }
         return [
             TextField::new('name'),
-            TextField::new('description'),
+          TextareaField::new('description'),
             DateTimeField::new('createdAt'),
             DateTimeField::new('updatedAt'),
         ];
